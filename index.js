@@ -13,6 +13,6 @@ app.use("/myData",userEx)
 app.use("/queryParams",queryRoute)
 
 
-app.listen(3000,()=>{
+app.listen(3000,() => {
     console.log("Listing to port 3000")
 })
