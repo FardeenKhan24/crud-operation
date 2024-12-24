@@ -1,20 +1,15 @@
+const queryService = require('../services/queryService');
 
+const queryNameAndAge = (req, res) => {
+    const result = queryService.getNameAndAge(req.query);
+    res.send(result);
+    console.log(result);
+};
 
-const queryNameAndAge = (req,res) =>{
-    let n = {name:req.query.name,age:req.query.age}
-    res.send(n)
-    console.log(n)
-}
+const queryGet = (req, res) => {
+    const result = queryService.getQueryResponse(req.query);
+    console.log(req.query);
+    return res.json(result);
+};
 
-const queryGet = (req,res) => {
-    console.log(req.query)
-    return res.json({
-        name:req.query.name,
-        message:"Hello World",
-        age:req.query.age
-    })
-}
-
-module.exports = {
-    queryNameAndAge,queryGet
-}
+module.exports = { queryNameAndAge, queryGet };

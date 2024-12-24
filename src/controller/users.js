@@ -1,18 +1,18 @@
-const userModel = require('../models/users.js')
 
-const getUserCreate = async(req,res) =>  {
-    try{
-        const users = await userModel.create(req.body)
-        res.json(users)
+const userService = require('../services/userService');
+
+const getUserCreate = async (req, res) => {
+    try {
+        const user = await userService.createUser(req.body);
+        res.json(user);
+    } catch (err) {
+        res.json({ message: err.message });
     }
-    catch(err){
-        res.json({message:err.message})
-    }
-}
+};
 
 const getUserRead = async(req,res)  => {
     try{
-        const users = await userModel.find({})
+        const users = await userService.getAllUsers({})
         res.json(users)
     }catch(err){
         res.json({message:err.message})
@@ -22,7 +22,7 @@ const getUserRead = async(req,res)  => {
 const getUserByid = async(req,res)  => {
     try{
         const {id} = req.params
-        const users = await userModel.findById(id)
+        const users = await userService.getUserByid(id)
         res.json(users)
     }catch(err){
         res.json({message:err.message})
@@ -32,11 +32,11 @@ const getUserByid = async(req,res)  => {
 const getUserUpdate = async(req,res) => {
     try{
         const {id} = req.params
-        const users = await userModel.findByIdAndUpdate(id,req.body)
+        const users = await userService.updateUserById(id,req.body)
         if(!users){
             return res.json({message:"user not found"})
         }
-        const updatedUser = await userModel.findById(id)
+        const updatedUser = await userService.getUserById(id)
         res.json(updatedUser)
     }catch(err){
         res.json({message:err.message})
@@ -46,7 +46,7 @@ const getUserUpdate = async(req,res) => {
 const getUserAndDelete = async(req,res) => {
     try{
         const {id} = req.params
-        const users = await userModel.findByIdAndDelete(id)
+        const users = await userService.deleteUserById(id)
         if(!users){
             return res.json({message:"user not found"})
         }

@@ -1,64 +1,50 @@
+const crudService = require("../services/ExCrudService")
 
-let myData = []
-const userCreate = (req,res) => {
-        const {name,age} = req.body
-        const newData =  {id:Date.now(),name,age}
-        myData.push(newData)
-        res.send(myData)
-        console.log(myData)
-    }
+const userCreate = async (req, res) => {
+    const newUserData = await crudService.createUser(req.body);
+    res.send(newUserData);
+    console.log("All Users:", newUserData);
+};
 
-const userRead = (req,res) => {
-    const r = myData.find(d => d.id === parseInt(req.params.id))
-    if(!r){
-        return res.send("data not found")
+const userRead = async(req, res) => {
+    const user = await crudService.readUserById(parseInt(req.params.id));
+    if (!user) {
+        return res.send("Data not found");
     }
-    res.send(r)
-}
+    res.send(user);
+};
 
-const userUpdate = (req,res) => {
-    const data = myData.find(d => d.id === parseInt(req.params.id))
-    if(!data){
-        res.send("Data not found")
+const userUpdate = (req, res) => {
+    const updatedUser = crudService.updateUserById(parseInt(req.params.id), req.body);
+    if (!updatedUser) {
+        return res.send("Data not found");
     }
-    const {name,age} = req.body
-    data.name=name
-    data.age=age
-    res.send(data)
-    console.log("Updated Data",myData)
-}
+    res.send(updatedUser);
+    console.log("Updated Data:", updatedUser);
+};
+    
 
-const userDelete = (req,res) => {
-    const index = myData.findIndex(d => d.id === parseInt(req.params.id))
-    if(!index){
-        res.send("Data not found")
+
+const userDelete = (req, res) => {
+    const deletedUser = crudService.deleteUserById(parseInt(req.params.id));
+    if (!deletedUser) {
+        return res.send("Data not found");
     }
-    myData.splice(index,1)
-    res.send('deleted')
-    console.log("Deleted data",myData)
-}
+    res.send("User deleted successfully");
+    console.log("Deleted User:", deletedUser);
+};
+
 
 const userNameandAge = (req, res) => {
-    const name = req.params.name;
+    const { name } = req.params;
     const age = parseInt(req.params.age);
-    const nameData = myData.filter(data => data.name === name);
-    if (nameData.length === 0) {
-        return res.send("No data found for the given name.");
-    }
-    console.log("Data for the given name:", nameData);
-    const ageData = myData.filter(data => data.age >= age);
-
-    if (age < 18) {
-        const under18Data = myData.filter(data => data.age <= 18);
-        return res.json({ message: "Age is below 18", data: under18Data });
-    }
-
-    if (ageData.length === 0) {
-        return res.send("No data found for the given age.");
-    }
-    console.log("Data for age above 18:", ageData);
-    res.json({ message: "Age is above 18", data: ageData });
+    const result = crudService.filterUserByNameAndAge(name, age);
+    
+    res.json(result);
+    console.log("Filtered Data:", result);
 };
+    
+    
 
 module.exports = {
     userCreate, userRead,userUpdate,userDelete,userNameandAge
