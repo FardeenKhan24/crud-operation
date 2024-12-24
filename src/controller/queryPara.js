@@ -6,8 +6,8 @@ const queryNameAndAge = (req, res) => {
     console.log(result);
 };
 
-const queryGet = (req, res) => {
-    const result = queryService.getQueryResponse(req.query);
+const queryGet =  (req, res) => {
+    const result =  queryService.getQueryResponse(req.query);
     console.log(req.query);
     return res.json(result);
 };

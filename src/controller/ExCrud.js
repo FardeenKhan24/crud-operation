@@ -14,8 +14,8 @@ const userRead = async(req, res) => {
     res.send(user);
 };
 
-const userUpdate = (req, res) => {
-    const updatedUser = crudService.updateUserById(parseInt(req.params.id), req.body);
+const userUpdate = async (req, res) => {
+    const updatedUser = await crudService.updateUserById(parseInt(req.params.id), req.body);
     if (!updatedUser) {
         return res.send("Data not found");
     }
@@ -25,8 +25,8 @@ const userUpdate = (req, res) => {
     
 
 
-const userDelete = (req, res) => {
-    const deletedUser = crudService.deleteUserById(parseInt(req.params.id));
+const userDelete = async (req, res) => {
+    const deletedUser = await crudService.deleteUserById(parseInt(req.params.id));
     if (!deletedUser) {
         return res.send("Data not found");
     }
@@ -35,10 +35,10 @@ const userDelete = (req, res) => {
 };
 
 
-const userNameandAge = (req, res) => {
+const userNameandAge = async (req, res) => {
     const { name } = req.params;
     const age = parseInt(req.params.age);
-    const result = crudService.filterUserByNameAndAge(name, age);
+    const result = await crudService.filterUserByNameAndAge(name, age);
     
     res.json(result);
     console.log("Filtered Data:", result);

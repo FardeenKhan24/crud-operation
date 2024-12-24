@@ -1,18 +1,18 @@
 let myData = [];
 
-const createUser = (userData) => {
-    const { name, age } = userData;
+const createUser =  (userData) => {
+    const { name, age } =  userData;
     const newData = { id: Date.now(), name, age };
     myData.push(newData);
     return myData;
 };
 
-const readUserById = (id) => {
-    return myData.find((data) => data.id === id);
+const readUserById = async (id) => {
+    return await myData.find((data) => data.id === id);
 };
 
-const updateUserById = (id, updatedData) => {
-    const data = myData.find((data) => data.id === id);
+const updateUserById = async (id, updatedData) => {
+    const data = await myData.find((data) => data.id === id);
     if (!data) return null;
 
     const { name, age } = updatedData;
@@ -21,7 +21,7 @@ const updateUserById = (id, updatedData) => {
     return data;
 };
 
-const deleteUserById = (id) => {
+const deleteUserById =  (id) => {
     const index = myData.findIndex((data) => data.id === id);
     if (index === -1) return null;
 
@@ -29,7 +29,7 @@ const deleteUserById = (id) => {
 };
 
 const filterUserByNameAndAge = (name, age) => {
-    const nameData = myData.filter((data) => data.name === name);
+    const nameData =  myData.filter((data) => data.name === name);
     if (nameData.length === 0) {
         return { message: "No data found for the given name." };
     }

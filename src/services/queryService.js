@@ -4,7 +4,7 @@ const getNameAndAge = (query) => {
     return { name: query.name, age: query.age };
 };
 
-const getQueryResponse = (query) => {
+const getQueryResponse =  (query) => {
     return {
         name: query.name,
         message: "Hello World",
